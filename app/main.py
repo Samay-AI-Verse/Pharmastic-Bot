@@ -122,7 +122,12 @@ async def verify_webhook(request: Request):
 # ------------------------
 @app.post("/webhook")
 async def receive_message(request: Request):
-    data = await request.json()
+    try:
+        data = await request.json()
+    except Exception:
+        print("⚠️ Received empty or invalid JSON payload (ignoring)")
+        return {"status": "ignored"}
+
     print("\n" + "=" * 50)
     print("📨 INCOMING WEBHOOK DATA:")
     print("=" * 50)
