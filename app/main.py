@@ -53,10 +53,7 @@ def ask_groq(user_msg):
         return "Sorry, something went wrong. Please try again."
 
 
-# ------------------------
-# WhatsApp Send Function
-# ------------------------
-def send_whatsapp_message(to, text):
+def send_whatsapp_message(to, text, message_id=None):
     url = f"https://graph.facebook.com/v21.0/{PHONE_NUMBER_ID}/messages"
 
     headers = {
@@ -71,39 +68,12 @@ def send_whatsapp_message(to, text):
         "text": {"body": text},
     }
 
-    print(f"\n{'='*60}")
-    print(f"📤 SENDING MESSAGE TO WHATSAPP")
-    print(f"{'='*60}")
-    print(f"🔗 URL: {url}")
-    print(f"📱 To: {to}")
-    print(f"💬 Message: {text[:100]}...")
-    print(f"🔑 Token (first 20 chars): {WHATSAPP_TOKEN[:20]}...")
-    print(f"📞 Phone Number ID: {PHONE_NUMBER_ID}")
-    print(f"{'='*60}\n")
+    if message_id:
+        payload["context"] = {"message_id": message_id}
 
-    try:
-        response = requests.post(url, headers=headers, json=payload, timeout=10)
-        print(f"✅ WhatsApp API Response Status: {response.status_code}")
-        print(f"📋 WhatsApp API Response: {response.json()}")
-
-        if response.status_code == 200:
-            print(f"✅ Message sent successfully!")
-            return True
-        else:
-            print(f"❌ Failed to send message!")
-            print(f"❌ Status Code: {response.status_code}")
-            print(f"❌ Response: {response.text}")
-            return False
-
-    except requests.exceptions.RequestException as e:
-        print(f"❌ Network Error: {e}")
-        return False
-    except Exception as e:
-        print(f"❌ Unexpected Error in send_whatsapp_message: {e}")
-        import traceback
-
-        traceback.print_exc()
-        return False
+    response = requests.post(url, headers=headers, json=payload)
+    print(response.status_code, response.text)
+    return response.status_code == 200
 
 
 # ------------------------
