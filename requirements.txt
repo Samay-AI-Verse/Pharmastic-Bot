@@ -4,24 +4,19 @@ uvicorn[standard]==0.27.0
 pydantic==2.5.3
 python-multipart==0.0.6
 
+# HTTP requests
+requests==2.31.0
+
 # MongoDB
 motor==3.3.2
 pymongo==4.6.1
 
-# Twilio
-twilio==8.11.1
-
 # Environment variables
 python-dotenv==1.0.0
 
-# GROQ AI (Free & Fast LLM)
-groq==0.4.2
+# Optional: Twilio (if you want to use it later)
+# twilio==8.11.1
 
-fastapi
-uvicorn
-python-dotenv
-motor
-twilio
-langchain-groq
-langchain-core
-pydantic
+# Optional: LangChain (if you want to use it later)
+# langchain-groq
+# langchain-core
